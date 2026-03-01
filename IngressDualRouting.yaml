@@ -1,0 +1,30 @@
+# Ingress exposes services via HTTP(S) and allows routing rules.
+# Here we define two hostnames:
+# - partner.a1-core.athora.net → Blue (production traffic)
+# - partner-green.a1-core.athora.net → Green (tester traffic)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pdb-core-ingress
+spec:
+  rules:
+  - host: partner.a1-core.athora.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pdb-core-blue-service
+            port:
+              number: 80
+  - host: partner-green.a1-core.athora.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pdb-core-green-service
+            port:
+              number: 80
