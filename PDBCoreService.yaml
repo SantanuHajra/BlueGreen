@@ -1,0 +1,27 @@
+# Service for Blue (production users)
+# Maps a stable DNS name to Blue pods only.
+apiVersion: v1
+kind: Service
+metadata:
+  name: pdb-core-blue-service
+spec:
+  selector:
+    app: pdb-core
+    version: blue
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+# Service for Green (testers only)
+# Maps a separate DNS name to Green pods.
+apiVersion: v1
+kind: Service
+metadata:
+  name: pdb-core-green-service
+spec:
+  selector:
+    app: pdb-core
+    version: green
+  ports:
+  - port: 80
+    targetPort: 8080
