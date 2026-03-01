@@ -1,0 +1,46 @@
+# Deployment ensures multiple replicas of Pods are running and handles rolling updates.
+# Here we define Blue and Green versions separately, each with its own label.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pdb-core-blue
+spec:
+  replicas: 3                           # Blue has 3 replicas for production load
+  selector:
+    matchLabels:
+      app: pdb-core
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: pdb-core
+        version: blue
+    spec:
+      containers:
+      - name: pdb-core
+        image: myregistry/pdb-core:20.0.1
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pdb-core-green
+spec:
+  replicas: 2                           # Green has 2 replicas for tester validation
+  selector:
+    matchLabels:
+      app: pdb-core
+      version: green
+  template:
+    metadata:
+      labels:
+        app: pdb-core
+        version: green
+    spec:
+      containers:
+      - name: pdb-core
+        image: myregistry/pdb-core:20.0.2
+        ports:
+        - containerPort: 8080
+
