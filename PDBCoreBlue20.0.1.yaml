@@ -1,0 +1,16 @@
+# A single Pod definition for PDB Core (Blue version)
+# Pods are the smallest deployable unit in Kubernetes.
+# In production, we rarely use raw Pods directly; instead, we wrap them in Deployments.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pdb-core-blue-pod
+  labels:
+    app: pdb-core
+    version: blue
+spec:
+  containers:
+  - name: pdb-core
+    image: myregistry/pdb-core:20.0.1   # Blue version image
+    ports:
+    - containerPort: 8080               # Application listens on port 8080
